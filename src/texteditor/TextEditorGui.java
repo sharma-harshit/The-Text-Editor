@@ -241,17 +241,31 @@ public class TextEditorGui extends javax.swing.JFrame
     
     private void cutTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutTextActionPerformed
         // TODO add your handling code here:
-        
+        String cutString = textArea.getSelectedText();
+        StringSelection cutSelection = new StringSelection(cutString);
+        clipboard.setContents(cutSelection, cutSelection);
+        textArea.replaceRange("", textArea.getSelectionStart(),textArea.getSelectionEnd());
     }//GEN-LAST:event_cutTextActionPerformed
 
     private void copyTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyTextActionPerformed
         // TODO add your handling code here:
-        
+        String copyText = textArea.getSelectedText();
+        StringSelection copySelection = new StringSelection(copyText);
+        clipboard.setContents(copySelection, copySelection);
     }//GEN-LAST:event_copyTextActionPerformed
 
     private void pasteTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteTextActionPerformed
         // TODO add your handling code here:
-        
+        try 
+        {
+            Transferable pasteText =clipboard.getContents(TextEditorGui.this);
+            String sel = (String) pasteText.getTransferData(DataFlavor.stringFlavor);
+            textArea.replaceRange(sel,textArea.getSelectionStart(),textArea.getSelectionEnd());
+        } 
+        catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(this,"Didn't Work");
+        }
     }//GEN-LAST:event_pasteTextActionPerformed
 
     
